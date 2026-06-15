@@ -10,4 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 
+ssize_t ft_read(int fd, void *buffer, size_t count)
+{
+    
+}

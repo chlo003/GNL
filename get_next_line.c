@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:20:18 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/17 19:51:18 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:40:18 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,4 @@ char	*get_next_line(int fd)
 		stock = buffer;
 		i++;
 	}
-}
-
-int	main(void)
-{
-	int	fd;
-
-	fd = open("file.txt", O_RDONLY);
-
-	close(fd);
-	return (0);
 }

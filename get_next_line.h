@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:32 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/18 13:26:47 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/18 18:42:56 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4
+#  define BUFFER_SIZE 3
 
 # endif
 
@@ -26,6 +26,8 @@
 
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_check_end_line(char *buffer);
+char	*ft_read_fd(int fd, char *stock);
 char	*get_next_line(int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:15 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/18 15:45:13 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/18 21:19:02 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ int	ft_check_end_line(char *buffer)
 {
 	int	i;
 
+	if (buffer == NULL)
+		return (0);
 	i = 0;
 	while (buffer[i])
 	{
 		if (buffer[i] == "\n")
-			return (0);
+			return (1);
 		i++;
 	}
 	return (-1);
@@ -63,12 +65,12 @@ int	ft_check_end_line(char *buffer)
 
 char	*ft_copy_to_end_line(char *stock)
 {
-	
+
 }
 
-char	*ft_next(char *stock)
+char	*ft_next_line(char *stock)
 {
-	
+
 }
 
 char	*ft_read_fd(int fd, char *stock)
@@ -79,7 +81,7 @@ char	*ft_read_fd(int fd, char *stock)
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	while (1)
+	while (!ft_check_end_line(buff))
 	{
 		count = read(fd, buffer, BUFFER_SIZE);
 		if (count == 0)
@@ -90,13 +92,35 @@ char	*ft_read_fd(int fd, char *stock)
 	return (NULL);
 }
 
+char	*get_next_line(int fd)	
+{
+	int			i;
+	char	*allread;
+
+	i = 0;
+	while (stock[i] != '\n')
+	{
+		allread = ft_read_fd(fd, buffer);
+		stock = buffer;
+		i++;
+	}
+	return (allread);
+}
+
 int	main(void)
 {
 	int			fd;
-	static char	*stock = NULL;
+	static char	*line = NULL;
 
 	fd = open("file.txt", O_RDONLY);
-	ft_read_fd(fd, stock);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		printf("%s", line);
+		free(line);
+	}
 	close(fd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:15 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/18 21:19:02 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/19 13:47:28 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-// ft_strjoin : rend une nouvelle string qui contient deux chaines mis l'une apres l'autre.
+// ft_strjoin : rend une nouvelle string qui
+// contient deux chaines mis l'une apres l'autre.
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*s3;
@@ -119,8 +121,8 @@ int	ft_check_end_line(char *buffer)
 	}
 	return (-1);
 }
-char	*ft_copy_to_end_line(char *stock)
-char	*ft_next_line(char *stock)
+//char	*ft_copy_to_end_line(char *stock)
+//char	*ft_next_line(char *stock)
 
 char	*ft_read_fd(int fd, char *stock)
 {
@@ -141,12 +143,14 @@ char	*ft_read_fd(int fd, char *stock)
 	return (NULL);
 }
 // get_next_line : 
-char	*get_next_line(int fd)	
+char	*get_next_line(int fd)
 {
-	int		i;
-	char	*allread;
-    char    *stock;
+	int			i;
+	char		*allread;
+	stati char	*stock;
 
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
+		return (NULL);
 	i = 0;
 	while (stock[i] != '\n')
 	{

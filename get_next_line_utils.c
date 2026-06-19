@@ -6,107 +6,59 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:15 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/19 13:47:28 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/19 23:15:08 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-// ft_strlen : rend la longeur de ma string.
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
 	i = 0;
+	if (s == NULL)
+		return (i);
 	while (s[i])
 		i++;
 	return (i);
 }
-// ft_strjoin : rend une nouvelle string qui
-// contient deux chaines mis l'une apres l'autre.
 
-char	*ft_strjoin(char const *s1, char const *s2)
+size_t	count_to_endline(char *string)
 {
-	char			*s3;
-	unsigned int	i;
-	unsigned int	j;
+	int	i;
+
+	i = 0;
+	while (string[i] && string[i] != '\n')
+		i++;
+	if (string[i] == '\n')
+		return (i + 1);
+	else
+		return (i);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*s3;
+	int		i;
+	int		j;
 
 	s3 = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (s3 == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i])
-	{
-		s3[i] = s1[i];
-		i++;
-	}
+	while (i != ft_strlen(s1))
+		s3[i++] = s1[i++];
 	j = 0;
-	while (s2[j])
-	{
-		s3[i + j] = s2[j];
-		j++;
-	}
+	while (i != ft_strlen(s2))
+		s3[i++] = s2[j++];
 	s3[i + j] = '\0';
+	free(s1);
+	s1 = NULL;
 	return (s3);
 }
-// ft_substr :
-// Allocates (with malloc(3)) and returns a substring
-// from the string ’s’.
-// The substring begins at index ’start’ and is of
-// maximum size ’len’.
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char		*new;
-	size_t		i;
-	size_t		size;
-
-	size = ft_strlen(s);
-	if (start >= size)
-		len = 0;
-	else if (len > size - start)
-		len = size - start;
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new[i] = s[start + i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
-// ft_strdup :
-// La fonction strdup() renvoie un pointeur sur
-// une nouvelle chaîne de caractères qui est dupliquée depuis s.
-// La mémoire occupée par cette nouvelle chaîne est obtenue en
-// appelant malloc(3), et peut (doit) donc être libérée avec free(3).
-
-char	*ft_strdup(const char *s1)
-{
-	size_t	i;
-	size_t	len;
-	char	*copy;
-
-	len = 0;
-	while (s1[len])
-		len++;
-	copy = (char *)malloc(len + 1);
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		copy[i] = s1[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
-}
-
-// ft_check_end_line : verifie s'il y a un "\n" dans ma string.
-int	ft_check_end_line(char *buffer)
+int	ft_check_new_line(char *buffer)
 {
 	int	i;
 
@@ -115,50 +67,89 @@ int	ft_check_end_line(char *buffer)
 	i = 0;
 	while (buffer[i])
 	{
-		if (buffer[i] == "\n")
-			return (1);
+		if (buffer[i] == '\n')
+			return (i);
 		i++;
 	}
 	return (-1);
 }
-//char	*ft_copy_to_end_line(char *stock)
-//char	*ft_next_line(char *stock)
 
 char	*ft_read_fd(int fd, char *stock)
 {
 	char	*buffer;
 	int		count;
 
+	write (1, "a", 1);
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	while (!ft_check_end_line(buff))
+	write (1, "b", 1);
+	while (1)
 	{
 		count = read(fd, buffer, BUFFER_SIZE);
-		if (count == 0)
+		write (1, "c", 1);
+		if (count <= 0)
 			break ;
+		write (1, "d", 1);
 		buffer[count] = '\0';
+		write (1, "e", 1);
+		stock = ft_strjoin(stock, buffer);
+		write (1, "f\n", 2);
+		if (ft_check_new_line(buffer) != -1)
+			break ;
+		write (1, "g", 1);
 	}
-//	printf("%s\n", buffer);
-	return (NULL);
+	free(buffer);
+	return (stock);
 }
-// get_next_line : 
+
+char	*ft_copy_to_end_line(char *stock)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	line = malloc(sizeof(char) * count_to_endline(stock) + 1);
+	while (stock[i] != '\n' && stock[i])
+	{
+		line[i] = stock[i];
+		i++;
+	}
+	line[i] = '\n';
+	i++;
+	line[i] = '\0';
+	return (line);
+}
+
+//char	*ft_clean_line(char *stock)
+
+void	next_line(char *stock)
+{
+	int	i;
+	int	va;
+
+	i = 0;
+	va = ft_check_new_line(stock) + 1;
+	while (stock[va])
+		stock[i++] = stock[va++];
+	stock[i] = '\0';
+}
+
 char	*get_next_line(int fd)
 {
-	int			i;
-	char		*allread;
-	stati char	*stock;
+	//char		*allread;
+	char		*line;
+	static char	*stock = NULL;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
 		return (NULL);
-	i = 0;
-	while (stock[i] != '\n')
-	{
-		allread = ft_read_fd(fd, buffer);
-		stock = buffer;
-		i++;
-	}
-	return (allread);
+	stock = ft_read_fd(fd, stock);
+	printf("stock------%s------stock\n", stock);
+	line = ft_copy_to_end_line(stock);
+	printf("line------%s------line\n", line);
+	next_line(stock);
+	printf("next------%s------next\n", stock);
+	return (line);
 }
 
 int	main(void)
@@ -167,14 +158,20 @@ int	main(void)
 	static char	*line = NULL;
 
 	fd = open("file.txt", O_RDONLY);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		printf("%s", line);
-		free(line);
-	}
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line);
+	// while (1)
+	// {
+	// 	line = get_next_line(fd);
+	// 	if (line == NULL)
+	// 		break ;
+	// 	printf("%s", line);
+	// 	free(line);
+	// }
 	close(fd);
 	return (0);
 }

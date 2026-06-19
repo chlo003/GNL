@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+// ft_strlen : rend la longeur de ma string.
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -21,7 +21,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
+// ft_strjoin : rend une nouvelle string qui contient deux chaines mis l'une apres l'autre.
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*s3;
@@ -46,7 +46,64 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	s3[i + j] = '\0';
 	return (s3);
 }
+// ft_substr :
+// Allocates (with malloc(3)) and returns a substring
+// from the string ’s’.
+// The substring begins at index ’start’ and is of
+// maximum size ’len’.
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char		*new;
+	size_t		i;
+	size_t		size;
+
+	size = ft_strlen(s);
+	if (start >= size)
+		len = 0;
+	else if (len > size - start)
+		len = size - start;
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		new[i] = s[start + i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+// ft_strdup :
+// La fonction strdup() renvoie un pointeur sur
+// une nouvelle chaîne de caractères qui est dupliquée depuis s.
+// La mémoire occupée par cette nouvelle chaîne est obtenue en
+// appelant malloc(3), et peut (doit) donc être libérée avec free(3).
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	i;
+	size_t	len;
+	char	*copy;
+
+	len = 0;
+	while (s1[len])
+		len++;
+	copy = (char *)malloc(len + 1);
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		copy[i] = s1[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
+}
+
+// ft_check_end_line : verifie s'il y a un "\n" dans ma string.
 int	ft_check_end_line(char *buffer)
 {
 	int	i;
@@ -62,16 +119,8 @@ int	ft_check_end_line(char *buffer)
 	}
 	return (-1);
 }
-
 char	*ft_copy_to_end_line(char *stock)
-{
-
-}
-
 char	*ft_next_line(char *stock)
-{
-
-}
 
 char	*ft_read_fd(int fd, char *stock)
 {
@@ -91,11 +140,12 @@ char	*ft_read_fd(int fd, char *stock)
 //	printf("%s\n", buffer);
 	return (NULL);
 }
-
+// get_next_line : 
 char	*get_next_line(int fd)	
 {
-	int			i;
+	int		i;
 	char	*allread;
+    char    *stock;
 
 	i = 0;
 	while (stock[i] != '\n')

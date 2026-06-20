@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:15 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/19 23:15:08 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/20 13:22:46 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,17 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	while (i != ft_strlen(s1))
-		s3[i++] = s1[i++];
+	{
+		s3[i] = s1[i];
+		i++;
+	}
 	j = 0;
 	while (i != ft_strlen(s2))
-		s3[i++] = s2[j++];
+	{
+		s3[i] = s2[j];
+		i++;
+		j++;
+	}
 	s3[i + j] = '\0';
 	free(s1);
 	s1 = NULL;
@@ -79,25 +86,18 @@ char	*ft_read_fd(int fd, char *stock)
 	char	*buffer;
 	int		count;
 
-	write (1, "a", 1);
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	write (1, "b", 1);
 	while (1)
 	{
 		count = read(fd, buffer, BUFFER_SIZE);
-		write (1, "c", 1);
 		if (count <= 0)
 			break ;
-		write (1, "d", 1);
 		buffer[count] = '\0';
-		write (1, "e", 1);
 		stock = ft_strjoin(stock, buffer);
-		write (1, "f\n", 2);
 		if (ft_check_new_line(buffer) != -1)
 			break ;
-		write (1, "g", 1);
 	}
 	free(buffer);
 	return (stock);
@@ -121,8 +121,6 @@ char	*ft_copy_to_end_line(char *stock)
 	return (line);
 }
 
-//char	*ft_clean_line(char *stock)
-
 void	next_line(char *stock)
 {
 	int	i;
@@ -137,7 +135,6 @@ void	next_line(char *stock)
 
 char	*get_next_line(int fd)
 {
-	//char		*allread;
 	char		*line;
 	static char	*stock = NULL;
 
@@ -158,20 +155,26 @@ int	main(void)
 	static char	*line = NULL;
 
 	fd = open("file.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	// while (1)
-	// {
-	// 	line = get_next_line(fd);
-	// 	if (line == NULL)
-	// 		break ;
-	// 	printf("%s", line);
-	// 	free(line);
-	// }
+	// line = get_next_line(fd);
+	// printf("%s", line);
+	// free(line);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		printf("%s", line);
+		free(line);
+		write(1, "\n\n", 2);
+	}
 	close(fd);
 	return (0);
 }
+
+
+// I'd like to add a simple explanation for both: Segmentation fault means 
+// that you are trying to access memory that you are not allowed to 
+// (e. g. it's not part of your program). However, on a bus error it 
+// usually means that you are trying to access memory that does not exist 
+// (e. g. you try to access an address at 12G but you only have 8G memory) 
+// or if you exceed the limit of usable memory. 

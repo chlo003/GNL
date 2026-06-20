@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:20:18 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/20 22:41:16 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/20 23:14:20 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_read_fd(int fd, char *stock)
 			break ;
 		buffer[count] = '\0';
 		stock = ft_strjoin(stock, buffer);
-		if (ft_check_new_line(buffer) != -1)
+		if (ft_check_new_line(buffer) >= 0)
 			break ;
 	}
 	free(buffer);

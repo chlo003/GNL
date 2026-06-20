@@ -6,7 +6,7 @@
 /*   By: chlminga <chlminga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:15 by chlminga          #+#    #+#             */
-/*   Updated: 2026/06/20 22:32:56 by chlminga         ###   ########.fr       */
+/*   Updated: 2026/06/20 23:23:26 by chlminga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	ft_check_new_line(char *buffer)
 	return (-1);
 }
 
-
 int	count_to_endline(char *string)
 {
 	int	i;
@@ -83,12 +82,3 @@ int	count_to_endline(char *string)
 	else
 		return (i);
 }
-
-
-
-// I'd like to add a simple explanation for both: Segmentation fault means 
-// that you are trying to access memory that you are not allowed to 
-// (e. g. it's not part of your program). However, on a bus error it 
-// usually means that you are trying to access memory that does not exist 
-// (e. g. you try to access an address at 12G but you only have 8G memory) 
-// or if you exceed the limit of usable memory. 
